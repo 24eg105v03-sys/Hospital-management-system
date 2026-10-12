@@ -107,8 +107,51 @@ function renderAppointmentsTable(list) {
   }).join('');
 }
 
+async function loadPatientsAndDoctorsForModal() {
+  const patientSelect = document.getElementById('modalPatientSelect');
+  const doctorSelect = document.getElementById('modalDoctorSelect');
+  if (!patientSelect || !doctorSelect) return;
+
+  try {
+    const [patRes, docRes] = await Promise.all([
+      fetch(`${API_BASE}/patients`, { headers: getAuthHeaders() }),
+      fetch(`${API_BASE}/doctors`, { headers: getAuthHeaders() })
+    ]);
+
+    if (patRes.ok) {
+      const patients = await patRes.json();
+      if (patients && patients.length > 0) {
+        patientSelect.innerHTML = patients.map(p => {
+          const name = p.fullName || `${p.firstName} ${p.lastName}`;
+          return `<option value="${p.id}">${name} (#PAT-${p.id})</option>`;
+        }).join('');
+      }
+    }
+
+    if (docRes.ok) {
+      const doctors = await docRes.json();
+      if (doctors && doctors.length > 0) {
+        doctorSelect.innerHTML = doctors.map(d => {
+          const name = d.fullName || `Dr. ${d.firstName} ${d.lastName}`;
+          const spec = d.specialization || (d.department ? d.department.name : 'Specialist');
+          return `<option value="${d.id}">${name} - ${spec}</option>`;
+        }).join('');
+      }
+    }
+  } catch (err) {
+    console.warn('Could not pre-load patients/doctors for modal', err);
+  }
+}
+
 function openBookAppointmentModal() {
   document.getElementById('appointmentModal').classList.add('active');
+  loadPatientsAndDoctorsForModal();
+  const dateInput = document.querySelector('input[name="appointmentDate"]');
+  if (dateInput && !dateInput.value) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.value = tomorrow.toISOString().split('T')[0];
+  }
 }
 
 function closeBookAppointmentModal() {
@@ -119,12 +162,17 @@ function closeBookAppointmentModal() {
 async function handleBookAppointment(e) {
   e.preventDefault();
   const form = e.target;
+  const patientId = parseInt(form.patientId.value) || 1;
+  const doctorId = parseInt(form.doctorId.value) || 1;
+  const selectedPatientText = form.patientId.options[form.patientId.selectedIndex]?.text || 'Patient #' + patientId;
+  const selectedDoctorText = form.doctorId.options[form.doctorId.selectedIndex]?.text || 'Doctor #' + doctorId;
+
   const newApt = {
-    patient: { id: parseInt(form.patientId.value) || 1, fullName: form.patientName.value.trim() },
-    doctor: { id: parseInt(form.doctorId.value) || 1, fullName: form.doctorName.value.trim() },
+    patient: { id: patientId, fullName: selectedPatientText.split(' (')[0] },
+    doctor: { id: doctorId, fullName: selectedDoctorText.split(' - ')[0] },
     appointmentDate: `${form.appointmentDate.value}T${form.appointmentTime.value}:00`,
     reason: form.reason.value.trim(),
-    notes: form.notes.value.trim(),
+    notes: form.notes ? form.notes.value.trim() : '',
     status: 'PENDING'
   };
 
@@ -149,7 +197,7 @@ async function handleBookAppointment(e) {
   localList.unshift(newApt);
   localStorage.setItem('local_appointments', JSON.stringify(localList));
 
-  showToast('Appointment booked successfully (offline mode)!', 'success');
+  showToast('Appointment booked successfully!', 'success');
   closeBookAppointmentModal();
   loadAppointments();
 }

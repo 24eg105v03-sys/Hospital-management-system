@@ -92,6 +92,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.hospital.HospitalApplication</mainClass>
+                    <jvmArguments>-XX:TieredStopAtLevel=1 -Xms64m -Xmx192m -Xss256k -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=96m -XX:CICompilerCount=2 -XX:+UseSerialGC</jvmArguments>
                 </configuration>
             </plugin>
         </plugins>

@@ -118,14 +118,16 @@
         <div class="modal-body">
           <div class="form-grid-2">
             <div class="form-group">
-              <label>Patient ID / Name</label>
-              <input type="hidden" name="patientId" value="1">
-              <input type="text" name="patientName" class="form-control" placeholder="e.g. John Doe" required>
+              <label>Select Patient</label>
+              <select name="patientId" id="modalPatientSelect" class="form-control" required>
+                <option value="1">John Doe (#PAT-1)</option>
+              </select>
             </div>
             <div class="form-group">
               <label>Assigned Specialist</label>
-              <input type="hidden" name="doctorId" value="1">
-              <input type="text" name="doctorName" class="form-control" placeholder="e.g. Dr. Sarah Jenkins" required>
+              <select name="doctorId" id="modalDoctorSelect" class="form-control" required>
+                <option value="1">Dr. Sarah Jenkins - Cardiologist</option>
+              </select>
             </div>
           </div>
 
