@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments Scheduler - CarePulse HMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon"><i class="fa-solid fa-hospital"></i></div>
+        <h2>CarePulse</h2>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-category">Main Menu</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span> Dashboard
+        </a>
+        <a href="patients.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-hospital-user"></i></span> Patients
+        </a>
+        <a href="doctors.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span> Doctors
+        </a>
+        <a href="appointments.html" class="sidebar-link active">
+          <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span> Appointments
+        </a>
+
+        <div class="nav-category">Clinical & Finance</div>
+        <a href="prescriptions.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-file-prescription"></i></span> Prescriptions
+        </a>
+        <a href="billing.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-receipt"></i></span> Billing & Invoices
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">C</div>
+          <div class="user-details">
+            <h5>Scheduler</h5>
+            <p>Front Desk</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <header class="app-header">
+        <div class="header-search">
+          <i class="fa-solid fa-filter" style="color: #94a3b8;"></i>
+          <select id="statusFilter" style="border:none; background:transparent; outline:none; width:100%; font-size: 0.875rem;">
+            <option value="">All Appointment Statuses</option>
+            <option value="PENDING">Pending Approval</option>
+            <option value="CONFIRMED">Confirmed</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary btn-sm" onclick="openBookAppointmentModal()">
+            <i class="fa-solid fa-calendar-plus"></i> Book Appointment
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="page-title-bar">
+          <div>
+            <h1>Appointments & Consultations</h1>
+            <p>View upcoming clinic visits, approve pending bookings, and track consultations.</p>
+          </div>
+        </div>
+
+        <!-- Appointments Table -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Patient</th>
+                  <th>Doctor</th>
+                  <th>Date & Time</th>
+                  <th>Purpose / Reason</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="appointmentsTableBody">
+                <!-- Loaded via appointments.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Book Appointment Modal -->
+  <div class="modal-overlay" id="appointmentModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Book New Consultation</h3>
+        <button class="modal-close" onclick="closeBookAppointmentModal()">&times;</button>
+      </div>
+
+      <form id="bookAppointmentForm">
+        <div class="modal-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Patient ID / Name</label>
+              <input type="hidden" name="patientId" value="1">
+              <input type="text" name="patientName" class="form-control" placeholder="e.g. John Doe" required>
+            </div>
+            <div class="form-group">
+              <label>Assigned Specialist</label>
+              <input type="hidden" name="doctorId" value="1">
+              <input type="text" name="doctorName" class="form-control" placeholder="e.g. Dr. Sarah Jenkins" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Appointment Date</label>
+              <input type="date" name="appointmentDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Time Slot</label>
+              <input type="time" name="appointmentTime" class="form-control" value="10:00" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Reason for Visit</label>
+            <input type="text" name="reason" class="form-control" placeholder="Annual routine physical checkup, chest pain, fever..." required>
+          </div>
+
+          <div class="form-group">
+            <label>Clinical Notes (Optional)</label>
+            <textarea name="notes" class="form-control" rows="2" placeholder="Patient requested morning slot..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeBookAppointmentModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/appointments.js"></script>
+</body>
+</html>

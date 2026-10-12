@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patients Directory - CarePulse HMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon"><i class="fa-solid fa-hospital"></i></div>
+        <h2>CarePulse</h2>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-category">Main Menu</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span> Dashboard
+        </a>
+        <a href="patients.html" class="sidebar-link active">
+          <span class="nav-icon"><i class="fa-solid fa-hospital-user"></i></span> Patients
+        </a>
+        <a href="doctors.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span> Doctors
+        </a>
+        <a href="appointments.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span> Appointments
+        </a>
+
+        <div class="nav-category">Clinical & Finance</div>
+        <a href="prescriptions.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-file-prescription"></i></span> Prescriptions
+        </a>
+        <a href="billing.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-receipt"></i></span> Billing & Invoices
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">A</div>
+          <div class="user-details">
+            <h5>Care Team</h5>
+            <p>Reception / Admin</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <header class="app-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
+          <input type="text" id="patientSearchInput" placeholder="Filter by patient name...">
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary btn-sm" onclick="openAddPatientModal()">
+            <i class="fa-solid fa-user-plus"></i> Add New Patient
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="page-title-bar">
+          <div>
+            <h1>Patients Directory</h1>
+            <p>Register, inspect, and update electronic medical records.</p>
+          </div>
+        </div>
+
+        <!-- Patients Data Table -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Record ID</th>
+                  <th>Patient Details</th>
+                  <th>Contact Phone</th>
+                  <th>Gender</th>
+                  <th>Blood Group</th>
+                  <th>Medical History</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="patientsTableBody">
+                <!-- Loaded via patients.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Patient Modal -->
+  <div class="modal-overlay" id="patientModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Add New Patient Record</h3>
+        <button class="modal-close" onclick="closeAddPatientModal()">&times;</button>
+      </div>
+
+      <form id="addPatientForm">
+        <div class="modal-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" name="firstName" class="form-control" placeholder="John" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="lastName" class="form-control" placeholder="Doe" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" name="email" class="form-control" placeholder="john.doe@example.com" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" name="phone" class="form-control" placeholder="+1-555-0199" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <input type="date" name="dateOfBirth" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Gender</label>
+              <select name="gender" class="form-control" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Blood Group</label>
+              <select name="bloodGroup" class="form-control">
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+" selected>O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" name="address" class="form-control" placeholder="City, Street">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Known Allergies / Medical History</label>
+            <textarea name="medicalHistory" class="form-control" rows="3" placeholder="Diabetes, penicillin allergy, past surgeries..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeAddPatientModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Patient</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/patients.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e-Prescriptions - CarePulse HMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon"><i class="fa-solid fa-hospital"></i></div>
+        <h2>CarePulse</h2>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-category">Main Menu</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span> Dashboard
+        </a>
+        <a href="patients.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-hospital-user"></i></span> Patients
+        </a>
+        <a href="doctors.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span> Doctors
+        </a>
+        <a href="appointments.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span> Appointments
+        </a>
+
+        <div class="nav-category">Clinical & Finance</div>
+        <a href="prescriptions.html" class="sidebar-link active">
+          <span class="nav-icon"><i class="fa-solid fa-file-prescription"></i></span> Prescriptions
+        </a>
+        <a href="billing.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-receipt"></i></span> Billing & Invoices
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">P</div>
+          <div class="user-details">
+            <h5>Pharmacy Desk</h5>
+            <p>Clinical Records</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <header class="app-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
+          <input type="text" id="prescSearch" placeholder="Search prescriptions...">
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary btn-sm" onclick="openAddPrescriptionModal()">
+            <i class="fa-solid fa-plus"></i> New Prescription
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="page-title-bar">
+          <div>
+            <h1>e-Prescription Management</h1>
+            <p>Digital medical prescriptions, dosages, and pharmacy dispensing instructions.</p>
+          </div>
+        </div>
+
+        <!-- Prescriptions Table -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Prescription #</th>
+                  <th>Patient</th>
+                  <th>Prescribed By</th>
+                  <th>Issue Date</th>
+                  <th>Diagnosis</th>
+                  <th>Medicines & Dosage</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="prescriptionsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Prescription Modal -->
+  <div class="modal-overlay" id="prescModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Create e-Prescription</h3>
+        <button class="modal-close" onclick="closeAddPrescriptionModal()">&times;</button>
+      </div>
+
+      <form id="addPrescriptionForm">
+        <div class="modal-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Patient Name</label>
+              <input type="text" name="patientName" class="form-control" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label>Doctor Name</label>
+              <input type="text" name="doctorName" class="form-control" placeholder="Dr. Sarah Jenkins" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Clinical Diagnosis</label>
+            <input type="text" name="diagnosis" class="form-control" placeholder="Acute Bronchitis / Stage 1 Hypertension" required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Medicine Name</label>
+              <input type="text" name="medicineName" class="form-control" placeholder="Amoxicillin" required>
+            </div>
+            <div class="form-group">
+              <label>Dosage & Frequency</label>
+              <input type="text" name="dosage" class="form-control" placeholder="500mg, 2x daily after food" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Course Duration</label>
+            <input type="text" name="duration" class="form-control" placeholder="7 days" required>
+          </div>
+
+          <div class="form-group">
+            <label>Physician Instructions</label>
+            <textarea name="instructions" class="form-control" rows="2" placeholder="Drink plenty of fluids and rest. Follow-up after 1 week."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeAddPrescriptionModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save & Issue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/prescriptions.js"></script>
+</body>
+</html>
