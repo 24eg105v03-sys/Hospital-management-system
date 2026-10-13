@@ -2,7 +2,7 @@
  * Hospital Management System - Authentication Logic (login.js)
  */
 
-const API_BASE = 'https://hospital-management-backend-ili0.onrender.com';
+const API_BASE = 'https://hospital-management-backend-ili0.onrender.com/api';
 
 // Toast Notification
 function showToast(message, type = 'info') {
