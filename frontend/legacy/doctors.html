@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Specialists & Doctors - CarePulse HMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon"><i class="fa-solid fa-hospital"></i></div>
+        <h2>CarePulse</h2>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-category">Main Menu</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span> Dashboard
+        </a>
+        <a href="patients.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-hospital-user"></i></span> Patients
+        </a>
+        <a href="doctors.html" class="sidebar-link active">
+          <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span> Doctors
+        </a>
+        <a href="appointments.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span> Appointments
+        </a>
+
+        <div class="nav-category">Clinical & Finance</div>
+        <a href="prescriptions.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-file-prescription"></i></span> Prescriptions
+        </a>
+        <a href="billing.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-receipt"></i></span> Billing & Invoices
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">D</div>
+          <div class="user-details">
+            <h5>Medical Staff</h5>
+            <p>Admin Portal</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <header class="app-header">
+        <div class="header-search">
+          <i class="fa-solid fa-filter" style="color: #94a3b8;"></i>
+          <select id="departmentFilter" style="border:none; background:transparent; outline:none; width:100%; font-size: 0.875rem;">
+            <option value="">All Departments</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Orthopedics">Orthopedics</option>
+          </select>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary btn-sm" onclick="openAddDoctorModal()">
+            <i class="fa-solid fa-user-doctor"></i> Add Doctor
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="page-title-bar">
+          <div>
+            <h1>Medical Specialists Roster</h1>
+            <p>Manage department heads, consultant physicians, and surgeons.</p>
+          </div>
+        </div>
+
+        <!-- Doctors Grid -->
+        <div class="features-grid" id="doctorsGrid" style="grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));">
+          <!-- Loaded via doctors.js -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Doctor Modal -->
+  <div class="modal-overlay" id="doctorModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Add Medical Specialist</h3>
+        <button class="modal-close" onclick="closeAddDoctorModal()">&times;</button>
+      </div>
+
+      <form id="addDoctorForm">
+        <div class="modal-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" name="firstName" class="form-control" placeholder="Marcus" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="lastName" class="form-control" placeholder="Vance" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" name="email" class="form-control" placeholder="dr.marcus@hospital.com" required>
+            </div>
+            <div class="form-group">
+              <label>Contact Phone</label>
+              <input type="tel" name="phone" class="form-control" placeholder="+1-555-0102" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Specialization</label>
+              <input type="text" name="specialization" class="form-control" placeholder="Cardiologist" required>
+            </div>
+            <div class="form-group">
+              <label>Department</label>
+              <input type="text" name="departmentName" class="form-control" placeholder="Cardiology" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Degree / Qualification</label>
+              <input type="text" name="qualification" class="form-control" placeholder="MD, PhD">
+            </div>
+            <div class="form-group">
+              <label>Experience (Years)</label>
+              <input type="number" name="experienceYears" class="form-control" min="1" max="50" value="10">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Consultation Fee (₹)</label>
+            <input type="number" name="consultationFee" class="form-control" min="0" step="50" value="800" required>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeAddDoctorModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Doctor Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/doctors.js"></script>
+</body>
+</html>

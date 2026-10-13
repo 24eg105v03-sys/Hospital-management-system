@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing & Invoices - CarePulse HMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon"><i class="fa-solid fa-hospital"></i></div>
+        <h2>CarePulse</h2>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-category">Main Menu</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span> Dashboard
+        </a>
+        <a href="patients.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-hospital-user"></i></span> Patients
+        </a>
+        <a href="doctors.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span> Doctors
+        </a>
+        <a href="appointments.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span> Appointments
+        </a>
+
+        <div class="nav-category">Clinical & Finance</div>
+        <a href="prescriptions.html" class="sidebar-link">
+          <span class="nav-icon"><i class="fa-solid fa-file-prescription"></i></span> Prescriptions
+        </a>
+        <a href="billing.html" class="sidebar-link active">
+          <span class="nav-icon"><i class="fa-solid fa-receipt"></i></span> Billing & Invoices
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">B</div>
+          <div class="user-details">
+            <h5>Billing Desk</h5>
+            <p>Finance Dept</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <header class="app-header">
+        <div class="header-search">
+          <i class="fa-solid fa-filter" style="color: #94a3b8;"></i>
+          <select id="billStatusFilter" style="border:none; background:transparent; outline:none; width:100%; font-size: 0.875rem;">
+            <option value="">All Invoices</option>
+            <option value="PAID">Paid</option>
+            <option value="UNPAID">Unpaid</option>
+          </select>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary btn-sm" onclick="openCreateBillModal()">
+            <i class="fa-solid fa-file-circle-plus"></i> Generate Invoice
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="page-title-bar">
+          <div>
+            <h1>Invoices & Billing</h1>
+            <p>Financial ledger, patient checkout receipts, and payment settlements.</p>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+          <div class="metric-card">
+            <div>
+              <div class="metric-val" id="totalBilled">₹4,500.00</div>
+              <div class="metric-lbl">Total Billed</div>
+            </div>
+            <div class="metric-icon-box stat-blue">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div>
+              <div class="metric-val" id="totalCollected">₹2,700.00</div>
+              <div class="metric-lbl">Amount Collected</div>
+            </div>
+            <div class="metric-icon-box stat-emerald">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div>
+              <div class="metric-val" id="totalPending">₹1,800.00</div>
+              <div class="metric-lbl">Outstanding Balance</div>
+            </div>
+            <div class="metric-icon-box stat-teal">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Invoices Table -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Invoice #</th>
+                  <th>Patient</th>
+                  <th>Billing Date</th>
+                  <th>Total Amount</th>
+                  <th>Discount</th>
+                  <th>Paid Amount</th>
+                  <th>Payment Method</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="billingTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Generate Bill Modal -->
+  <div class="modal-overlay" id="billModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Generate Patient Invoice</h3>
+        <button class="modal-close" onclick="closeCreateBillModal()">&times;</button>
+      </div>
+
+      <form id="createBillForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Patient Full Name</label>
+            <input type="text" name="patientName" class="form-control" placeholder="e.g. John Doe" required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Total Consultation / Hospital Fee (₹)</label>
+              <input type="number" name="totalAmount" id="billTotal" class="form-control" value="1200" required min="1">
+            </div>
+            <div class="form-group">
+              <label>Discount (₹)</label>
+              <input type="number" name="discount" id="billDiscount" class="form-control" value="0" min="0">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Paid Amount (₹)</label>
+              <input type="number" name="paidAmount" id="billPaid" class="form-control" value="1200" required min="0">
+            </div>
+            <div class="form-group">
+              <label>Payment Method</label>
+              <select name="paymentMethod" class="form-control">
+                <option value="Cash">Cash</option>
+                <option value="Card" selected>Credit / Debit Card</option>
+                <option value="UPI">UPI / Online</option>
+                <option value="Insurance">Health Insurance</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeCreateBillModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Generate Invoice</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/billing.js"></script>
+</body>
+</html>

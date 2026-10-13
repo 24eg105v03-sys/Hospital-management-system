@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - CarePulse HMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <a href="index.html" class="brand-logo" style="justify-content: center;">
+          <div class="brand-icon"><i class="fa-solid fa-hospital"></i></div>
+          CarePulse HMS
+        </a>
+        <h2>Welcome Back</h2>
+        <p>Sign in to access your hospital portal</p>
+      </div>
+
+      <!-- Quick Demo Login Helpers -->
+      <div class="demo-credentials-box">
+        <div class="demo-title"><i class="fa-solid fa-bolt"></i> Quick Demo Accounts:</div>
+        <div class="credential-chips">
+          <button type="button" class="chip-btn" onclick="fillDemoCredentials('admin', 'admin123')">
+            Admin
+          </button>
+          <button type="button" class="chip-btn" onclick="fillDemoCredentials('dr_sarah', 'doctor123')">
+            Doctor
+          </button>
+          <button type="button" class="chip-btn" onclick="fillDemoCredentials('john_doe', 'patient123')">
+            Patient
+          </button>
+        </div>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username"><i class="fa-regular fa-user"></i> Username</label>
+          <input type="text" id="username" class="form-control" placeholder="Enter your username" required autofocus>
+        </div>
+
+        <div class="form-group">
+          <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In to Account
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-muted);">
+        Don't have an account? <a href="register.html" style="color: var(--primary); font-weight: 600;">Create Account</a>
+      </div>
+      <div style="text-align: center; margin-top: 0.75rem;">
+        <a href="index.html" style="font-size: 0.8rem; color: var(--text-light);">← Back to Homepage</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/login.js"></script>
+</body>
+</html>
